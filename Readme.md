@@ -1,5 +1,5 @@
 # date
-print format date in 2006-01-02.
+date for golang.
 
 [![Build Status](https://travis-ci.org/lovego/date.svg?branch=master)](https://travis-ci.org/lovego/date)
 [![Coverage Status](https://img.shields.io/coveralls/github/lovego/date/master.svg)](https://coveralls.io/github/lovego/date?branch=master)

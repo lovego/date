@@ -53,7 +53,7 @@ func (date Date) MarshalJSON() ([]byte, error) {
 }
 
 func (date Date) Value() (driver.Value, error) {
-	return date.String(), nil
+	return "'" + date.String() + "'", nil
 }
 
 func (date *Date) Scan(value interface{}) (err error) {
