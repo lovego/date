@@ -17,7 +17,7 @@ const (
 
 func New(str string) (*Date, error) {
 
-	if str == "" {
+	if str == "" || str == "null" {
 		return &Date{}, nil
 	}
 
