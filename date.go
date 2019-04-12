@@ -3,6 +3,7 @@ package date
 import (
 	"database/sql/driver"
 	"fmt"
+	"reflect"
 	"strings"
 	"time"
 )
@@ -57,6 +58,12 @@ func (date Date) Value() (driver.Value, error) {
 }
 
 func (date *Date) Scan(value interface{}) (err error) {
+
+	if reflect.TypeOf(value) == nil {
+		*date = Date{}
+		return nil
+	}
+
 	v, ok := value.(time.Time)
 	if ok {
 		*date = Date{v}
