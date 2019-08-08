@@ -5,6 +5,31 @@ import (
 	"fmt"
 )
 
+func ExampleMidnight() {
+
+	type Stu struct {
+		Name       string `json:"name"`
+		FinishedAt Hms    `json:"finishedAt"`
+	}
+
+	d, err := New("24:00:00")
+	fmt.Println(err)
+
+	stu := Stu{Name: "A", FinishedAt: *d}
+	b, _ := json.Marshal(stu)
+	fmt.Println(string(b))
+
+	stu2 := Stu{}
+	data := []byte(`{"name": "W5", "finishedAt": "24:00:00"}`)
+	json.Unmarshal(data, &stu2)
+	fmt.Println(stu2.FinishedAt)
+
+	// Output:
+	// <nil>
+	// {"name":"A","finishedAt":"00:00:00"}
+	// 24:00:00
+}
+
 func ExampleHms() {
 
 	type Stu struct {

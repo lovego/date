@@ -10,10 +10,13 @@ import (
 
 type Hms struct {
 	time.Time
+	IsMidnight bool `json:"isMidnight"`
 }
 
 const (
 	timeLayout = "15:04:05"
+	midnight24 = "24:00:00"
+	midnight   = "00:00:00"
 )
 
 func (hms Hms) Today() time.Time {
@@ -33,15 +36,24 @@ func New(str string) (*Hms, error) {
 		return &Hms{}, nil
 	}
 
+	is24 := false
+	if str == midnight24 {
+		is24 = true
+		str = midnight
+	}
+
 	t, err := time.Parse(timeLayout, str)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Hms{t}, nil
+	return &Hms{Time: t, IsMidnight: is24}, nil
 }
 
 func (hms Hms) String() string {
+	if hms.IsMidnight {
+		return midnight24
+	}
 	return hms.Format(timeLayout)
 }
 
@@ -75,10 +87,10 @@ func (hms *Hms) Scan(value interface{}) (err error) {
 		return nil
 	}
 
-	v, ok := value.(time.Time)
+	v, ok := value.(Hms)
 	if ok {
-		*hms = Hms{v}
+		*hms = v
 		return nil
 	}
-	return fmt.Errorf("can not convert %v to time", value)
+	return fmt.Errorf("can not convert %v to hms", value)
 }
