@@ -16,6 +16,17 @@ const (
 	timeLayout = "15:04:05"
 )
 
+func (hms Hms) Today() time.Time {
+	if hms.Time.IsZero() {
+		return time.Now()
+	}
+	now := time.Now()
+	return time.Date(
+		now.Year(), now.Month(), now.Day(),
+		hms.Hour(), hms.Minute(), hms.Second(),
+		0, now.Location())
+}
+
 func New(str string) (*Hms, error) {
 
 	if str == "" || str == "null" {
