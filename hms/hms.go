@@ -10,13 +10,12 @@ import (
 
 type Hms struct {
 	time.Time
-	IsMidnight bool `json:"isMidnight"`
 }
 
 const (
 	timeLayout = "15:04:05"
 	midnight24 = "24:00:00"
-	midnight   = "00:00:00"
+	midnight   = "23:59:59"
 )
 
 func (hms Hms) Today() time.Time {
@@ -36,9 +35,7 @@ func New(str string) (*Hms, error) {
 		return &Hms{}, nil
 	}
 
-	is24 := false
 	if str == midnight24 {
-		is24 = true
 		str = midnight
 	}
 
@@ -47,14 +44,15 @@ func New(str string) (*Hms, error) {
 		return nil, err
 	}
 
-	return &Hms{Time: t, IsMidnight: is24}, nil
+	return &Hms{t}, nil
 }
 
 func (hms Hms) String() string {
-	if hms.IsMidnight {
+	f := hms.Format(timeLayout)
+	if f == midnight {
 		return midnight24
 	}
-	return hms.Format(timeLayout)
+	return f
 }
 
 func (hms *Hms) UnmarshalJSON(b []byte) (err error) {
@@ -73,23 +71,27 @@ func (hms Hms) MarshalJSON() ([]byte, error) {
 	if hms.Time.IsZero() {
 		return []byte("null"), nil
 	}
-	return []byte(fmt.Sprintf("\"%s\"", hms.Format(timeLayout))), nil
+
+	return []byte(fmt.Sprintf("\"%s\"", hms.String())), nil
 }
 
 func (hms Hms) Value() (driver.Value, error) {
-	return hms.String(), nil
+	if hms.String() == midnight24 {
+		return midnight, nil
+	}
+	return hms.Format(timeLayout), nil
 }
 
-func (hms *Hms) Scan(value interface{}) (err error) {
+func (hms *Hms) Scan(value interface{}) error {
 
 	if reflect.TypeOf(value) == nil {
 		*hms = Hms{}
 		return nil
 	}
 
-	v, ok := value.(Hms)
+	v, ok := value.(time.Time)
 	if ok {
-		*hms = v
+		*hms = Hms{v}
 		return nil
 	}
 	return fmt.Errorf("can not convert %v to hms", value)

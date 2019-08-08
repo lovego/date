@@ -26,7 +26,7 @@ func ExampleMidnight() {
 
 	// Output:
 	// <nil>
-	// {"name":"A","finishedAt":"00:00:00"}
+	// {"name":"A","finishedAt":"24:00:00"}
 	// 24:00:00
 }
 
