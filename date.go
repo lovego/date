@@ -16,6 +16,7 @@ const (
 )
 
 func New(str string) (*Date, error) {
+	str = strings.Trim(str, "\"")
 	if str == "" || str == "null" {
 		return &Date{}, nil
 	}
@@ -40,9 +41,7 @@ func (date Date) MarshalJSON() ([]byte, error) {
 }
 
 func (date *Date) UnmarshalJSON(b []byte) error {
-	str := strings.Trim(string(b), "\"")
-
-	t, err := New(str)
+	t, err := New(string(b))
 	if err != nil {
 		return err
 	}
