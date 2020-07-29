@@ -40,7 +40,6 @@ func (date Date) MarshalJSON() ([]byte, error) {
 }
 
 func (date *Date) UnmarshalJSON(b []byte) error {
-	fmt.Println(string(b))
 	str := strings.Trim(string(b), "\"")
 
 	t, err := New(str)
@@ -57,6 +56,11 @@ func (date Date) Value() (driver.Value, error) {
 }
 
 func (date *Date) Scan(value interface{}) error {
+	if value == nil {
+		*date = Date{}
+		return nil
+	}
+
 	v, ok := value.(time.Time)
 	if ok {
 		*date = Date{v}
