@@ -5,37 +5,34 @@ import (
 	"fmt"
 )
 
-func ExampleDate() {
+func ExampleNew() {
+	fmt.Println(New("2018-04-01"))
+	// Output: 2018-04-01 <nil>
+}
 
-	type Stu struct {
-		Name     string `json:"name"`
-		BillDate Date   `json:"billDate"`
-	}
+func ExampleMarshalJSON() {
+	var day = &Date{}
+	b, err := json.Marshal(day)
+	fmt.Println(string(b), err)
 
-	d, err := New("2018-04-01")
-	fmt.Println(err)
+	day, _ = New("2018-04-01")
+	b, err = json.Marshal(day)
+	fmt.Println(string(b), err)
+	// Output:
+	// null <nil>
+	// "2018-04-01" <nil>
+}
 
-	stu := Stu{Name: "A", BillDate: *d}
-	b, _ := json.Marshal(stu)
-	fmt.Println(string(b))
+func ExampleUnmarshalJSON() {
+	var day = Date{}
+	err := json.Unmarshal([]byte(`"2019-09-12"`), &day)
+	fmt.Println(day, err)
 
-	stu = Stu{Name: "A"}
-	b, _ = json.Marshal(stu)
-	fmt.Println(string(b))
-
-	stu2 := Stu{}
-	data := []byte(`{"name": "W5"}`)
-	json.Unmarshal(data, &stu2)
-	fmt.Println(stu2.BillDate.IsZero())
-
-	data = []byte(`{"name": "W5", "billDate": "2019-09-12"}`)
-	json.Unmarshal(data, &stu2)
-	fmt.Println(stu2.BillDate)
+	day = Date{}
+	err = json.Unmarshal([]byte(`2019-09-12`), &day)
+	fmt.Println(day, err)
 
 	// Output:
-	// <nil>
-	// {"name":"A","billDate":"2018-04-01"}
-	// {"name":"A","billDate":null}
-	// true
-	// 2019-09-12
+	// 2019-09-12 <nil>
+	// 0001-01-01 invalid character '-' after top-level value
 }

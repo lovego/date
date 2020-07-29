@@ -16,7 +16,6 @@ const (
 )
 
 func New(str string) (*Date, error) {
-
 	if str == "" || str == "null" {
 		return &Date{}, nil
 	}
@@ -33,7 +32,15 @@ func (date Date) String() string {
 	return date.Format(timeLayout)
 }
 
-func (date *Date) UnmarshalJSON(b []byte) (err error) {
+func (date Date) MarshalJSON() ([]byte, error) {
+	if date.Time.IsZero() {
+		return []byte("null"), nil
+	}
+	return []byte(fmt.Sprintf("\"%s\"", date.Format(timeLayout))), nil
+}
+
+func (date *Date) UnmarshalJSON(b []byte) error {
+	fmt.Println(string(b))
 	str := strings.Trim(string(b), "\"")
 
 	t, err := New(str)
@@ -45,22 +52,15 @@ func (date *Date) UnmarshalJSON(b []byte) (err error) {
 	return nil
 }
 
-func (date Date) MarshalJSON() ([]byte, error) {
-	if date.Time.IsZero() {
-		return []byte("null"), nil
-	}
-	return []byte(fmt.Sprintf("\"%s\"", date.Format(timeLayout))), nil
-}
-
 func (date Date) Value() (driver.Value, error) {
 	return date.String(), nil
 }
 
-func (date *Date) Scan(value interface{}) (err error) {
+func (date *Date) Scan(value interface{}) error {
 	v, ok := value.(time.Time)
 	if ok {
 		*date = Date{v}
 		return nil
 	}
-	return fmt.Errorf("can not convert %v to timestamp", value)
+	return fmt.Errorf("can not convert %v to date.Date", value)
 }
