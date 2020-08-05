@@ -37,7 +37,7 @@ func (date Date) MarshalJSON() ([]byte, error) {
 	if date.Time.IsZero() {
 		return []byte("null"), nil
 	}
-	return []byte(fmt.Sprintf("\"%s\"", date.Format(timeLayout))), nil
+	return []byte(`"` + date.Format(timeLayout) + `"`), nil
 }
 
 func (date *Date) UnmarshalJSON(b []byte) error {
