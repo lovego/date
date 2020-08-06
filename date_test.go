@@ -34,5 +34,5 @@ func ExampleUnmarshalJSON() {
 
 	// Output:
 	// 2019-09-12 <nil>
-	// 0001-01-01 invalid character '-' after top-level value
+	//  invalid character '-' after top-level value
 }

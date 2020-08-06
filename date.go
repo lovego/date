@@ -30,6 +30,9 @@ func New(str string) (*Date, error) {
 }
 
 func (date Date) String() string {
+	if date.Time.IsZero() {
+		return ""
+	}
 	return date.Format(timeLayout)
 }
 
