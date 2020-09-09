@@ -36,3 +36,15 @@ func ExampleUnmarshalJSON() {
 	// 2019-09-12 <nil>
 	//  invalid character '-' after top-level value
 }
+
+func ExampleValue() {
+	var day = &Date{}
+	fmt.Println(day.Value())
+
+	day, _ = New("2018-04-01")
+	fmt.Println(day.Value())
+
+	// Output:
+	// NULL <nil>
+	// 2018-04-01 <nil>
+}
