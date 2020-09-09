@@ -55,9 +55,9 @@ func (date *Date) UnmarshalJSON(b []byte) error {
 
 func (date Date) Value() (driver.Value, error) {
 	if date.Time.IsZero() {
-		return "NULL", nil
+		return []byte("NULL"), nil
 	}
-	return date.Format(timeLayout), nil
+	return []byte("'" + date.Format(timeLayout) + "'"), nil
 }
 
 func (date *Date) Scan(value interface{}) error {

@@ -38,13 +38,14 @@ func ExampleUnmarshalJSON() {
 }
 
 func ExampleValue() {
-	var day = &Date{}
-	fmt.Println(day.Value())
+	b, err := Date{}.Value()
+	fmt.Println(string(b.([]byte)), err)
 
-	day, _ = New("2018-04-01")
-	fmt.Println(day.Value())
+	day2, _ := New("2018-04-01")
+	b, err = day2.Value()
+	fmt.Println(string(b.([]byte)), err)
 
 	// Output:
 	// NULL <nil>
-	// 2018-04-01 <nil>
+	// '2018-04-01' <nil>
 }
