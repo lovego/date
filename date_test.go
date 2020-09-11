@@ -11,7 +11,7 @@ func ExampleParse() {
 }
 
 func ExampleMarshalJSON() {
-	var day = &Date{}
+	var day = Date{}
 	b, err := json.Marshal(day)
 	fmt.Println(string(b), err)
 

@@ -15,22 +15,26 @@ const (
 	timeLayout = "2006-01-02"
 )
 
-func New(year, month, day int) *Date {
-	return &Date{time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.Local)}
+func Today() Date {
+	return Date{time.Now()}
 }
 
-func Parse(str string) (*Date, error) {
+func New(year, month, day int) Date {
+	return Date{time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.Local)}
+}
+
+func Parse(str string) (Date, error) {
 	str = strings.Trim(str, "\"")
 	if str == "" || str == "null" {
-		return &Date{}, nil
+		return Date{}, nil
 	}
 
 	t, err := time.Parse(timeLayout, str)
 	if err != nil {
-		return nil, err
+		return Date{}, err
 	}
 
-	return &Date{t}, nil
+	return Date{t}, nil
 }
 
 func (date Date) String() string {
@@ -48,12 +52,12 @@ func (date Date) MarshalJSON() ([]byte, error) {
 }
 
 func (date *Date) UnmarshalJSON(b []byte) error {
-	t, err := Parse(string(b))
+	d, err := Parse(string(b))
 	if err != nil {
 		return err
 	}
 
-	*date = *t
+	*date = d
 	return nil
 }
 
