@@ -5,8 +5,8 @@ import (
 	"fmt"
 )
 
-func ExampleNew() {
-	fmt.Println(New("2018-04-01"))
+func ExampleParse() {
+	fmt.Println(Parse("2018-04-01"))
 	// Output: 2018-04-01 <nil>
 }
 
@@ -15,7 +15,7 @@ func ExampleMarshalJSON() {
 	b, err := json.Marshal(day)
 	fmt.Println(string(b), err)
 
-	day, _ = New("2018-04-01")
+	day = New(2018, 04, 01)
 	b, err = json.Marshal(day)
 	fmt.Println(string(b), err)
 	// Output:
@@ -41,7 +41,7 @@ func ExampleValue() {
 	b, err := Date{}.Value()
 	fmt.Println(string(b.([]byte)), err)
 
-	day2, _ := New("2018-04-01")
+	day2 := New(2018, 04, 01)
 	b, err = day2.Value()
 	fmt.Println(string(b.([]byte)), err)
 
