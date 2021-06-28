@@ -16,7 +16,12 @@ const (
 )
 
 func Today() Date {
-	return Date{time.Now()}
+	now := time.Now()
+	return New(now.Year(), int(now.Month()), now.Day())
+}
+
+func (date Date) Add(day int) Date {
+	return Date{Time: date.Time.AddDate(0, 0, day)}
 }
 
 func New(year, month, day int) Date {
