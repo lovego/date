@@ -49,3 +49,23 @@ func ExampleValue() {
 	// NULL <nil>
 	// '2018-04-01' <nil>
 }
+
+func ExampleCompare() {
+	day1 := New(2021, 10, 1)
+	day2 := New(2021, 10, 2)
+	day3 := New(2021, 10, 2)
+	fmt.Println(day1.After(day2))
+	fmt.Println(day1.Before(day2))
+	fmt.Println(day1.Equal(day2))
+	fmt.Println(day2.After(day3))
+	fmt.Println(day2.Before(day3))
+	fmt.Println(day2.Equal(day3))
+
+	// Output:
+	// false
+	// true
+	// false
+	// false
+	// false
+	// true
+}

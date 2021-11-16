@@ -86,3 +86,19 @@ func (date *Date) Scan(value interface{}) error {
 	}
 	return fmt.Errorf("can not convert %v to date.Date", value)
 }
+
+func (t Date) After(u Date) bool {
+	return t.Time.After(u.Time)
+}
+
+func (t Date) Before(u Date) bool {
+	return t.Time.Before(u.Time)
+}
+
+func (t Date) Equal(u Date) bool {
+	return t.Time.Equal(u.Time)
+}
+
+func (t Date) Sub(u Date) time.Duration {
+	return t.Time.Sub(u.Time)
+}
