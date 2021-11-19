@@ -28,6 +28,11 @@ func New(year, month, day int) Date {
 	return Date{time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.Local)}
 }
 
+func NewFromTime(t time.Time) Date {
+	year, month, day := t.Date()
+	return Date{time.Date(year, month, day, 0, 0, 0, 0, time.Local)}
+}
+
 func Parse(str string) (Date, error) {
 	str = strings.Trim(str, "\"")
 	if str == "" || str == "null" {
