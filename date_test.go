@@ -19,7 +19,7 @@ func ExampleMarshalJSON() {
 	b, err = json.Marshal(day)
 	fmt.Println(string(b), err)
 	// Output:
-	// null <nil>
+	// "" <nil>
 	// "2018-04-01" <nil>
 }
 

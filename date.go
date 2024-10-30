@@ -56,7 +56,7 @@ func (date Date) String() string {
 
 func (date Date) MarshalJSON() ([]byte, error) {
 	if date.Time.IsZero() {
-		return []byte("null"), nil
+		return []byte(`""`), nil
 	}
 	return []byte(`"` + date.Format(timeLayout) + `"`), nil
 }
